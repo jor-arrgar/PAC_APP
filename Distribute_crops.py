@@ -163,9 +163,10 @@ elif main_menu.lower() == 'nueva temporada':
         exploitation_df_encoded = exploitation_df.to_csv(index=False , sep=';').encode('latin_1')
         
         
-        exploitation_name = st.text_input('Nombre de archivo') + '.csv'
+        exploitation_name = st.text_input('Nombre de archivo')
+        
         if len(exploitation_name) > 0:
-            st.download_button(download_updated_file , exploitation_df_encoded , exploitation_name , mime='text/plain')
+            st.download_button(download_updated_file , exploitation_df_encoded , exploitation_name + '.csv', mime='text/csv')
         
         if st.checkbox('TABLA COMPLETA'):
             st.write(exploitation_df) 

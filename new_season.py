@@ -90,7 +90,10 @@ def check_for_diversification(crops_df):
     
     surface_sum = sum(crops_df['SUPERFICIE'])
     main_crop = crops_df.values[0] / surface_sum
-    secondary_crop = crops_df.values[1] / surface_sum
+    try:
+        secondary_crop = crops_df.values[1] / surface_sum
+    except(IndexError):
+        secondary_crop = 0
     
     upgradring_crops = [crop for crop in crops_df.index if crop in up_crops]
     legumes = [crop for crop in crops_df.index if crop in leguminous_crops]

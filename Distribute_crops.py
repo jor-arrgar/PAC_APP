@@ -167,7 +167,7 @@ elif main_menu.lower() == 'nueva temporada':
         if len(exploitation_name) > 0:
             st.download_button(download_updated_file , exploitation_df_encoded , exploitation_name , mime='text/plain')
         
-        if st.checkbox('Display complete historic table'):
+        if st.checkbox('TABLA COMPLETA'):
             st.write(exploitation_df) 
         
     except(NameError):

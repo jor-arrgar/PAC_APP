@@ -97,13 +97,13 @@ def check_for_diversification(crops_df):
     legumes = [crop for crop in crops_df.index if crop in leguminous_crops]
     
     if  len(legumes) == 0:
-        return False , 'no legumes'
+        return False , ' no haber leguminosas'
     
     elif main_crop > 0.7:
-        return False , 'main crop'
+        return False , r'que el cultivo principal supera el 70% de la explotación'
     
     elif main_crop + secondary_crop > 0.9:
-        return False , 'main + second'
+        return False , 'que la suma del primer y segundo cultivo superan el 90% de la explotación'
     
     else:
         return True , ''

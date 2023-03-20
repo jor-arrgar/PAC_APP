@@ -135,9 +135,9 @@ elif main_menu.lower() == 'nueva temporada':
                 
                 rotation_check = check_for_rotation_requissite(value , crop)
                 if rotation_check:
-                    c7.image('images\\rectangle_green.png')
+                    c7.image('https://github.com/jor-arrgar/PAC_APP/blob/master/images/rectangle_green.png')
                 else:
-                    c7.image('images\\rectangle_red.png')
+                    c7.image('https://github.com/jor-arrgar/PAC_APP/blob/master/images/rectangle_red.png')
                 
                 
                 

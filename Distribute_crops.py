@@ -145,7 +145,7 @@ elif main_menu.lower() == 'nueva temporada':
         
         diversification , error_type = check_for_diversification(crops_surface_df)
         if not diversification:
-            st.sidebar.warning('No cumple el requisito de diversificación por {0}'.format(error_type))
+            st.sidebar.error('No cumple el requisito de diversificación por {0}'.format(error_type))
         
         st.sidebar.plotly_chart(fig)
         st.sidebar.table(crops_surface_df)

@@ -1,7 +1,7 @@
 import streamlit as st
 from pandas.io.parsers import read_csv
 import pandas as pd
-import numpy as np
+import plotly.graph_objects as go
 
 from global_var import *
 
@@ -70,7 +70,7 @@ def get_season_columns(exploitation_df , season):
 
 def season_pie_chart(crops , superficie):
     
-    import plotly.graph_objects as go
+
     df = pd.DataFrame()
     df['SUPERFICIE'] = superficie
     df['CULTIVO'] = crops

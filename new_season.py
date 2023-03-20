@@ -29,18 +29,16 @@ def set_exploitation_df():
 
 def check_for_last_season(exploitation_df):
     exploitation_in_kernel = True
-    st.write(type(exploitation_df))
+
     try:
         last_season = int(exploitation_df.columns[2:][-1])
-        st.write('taking value from columns')
+
     except(IndexError):
             last_season = 1999
-            st.write('setting 1999')
 
     except(NameError):
         exploitation_in_kernel = False
         last_season = None
-        st.write('No expl')
         
     return exploitation_in_kernel , last_season
 

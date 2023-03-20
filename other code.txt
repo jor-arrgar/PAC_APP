@@ -1,0 +1,124 @@
+                '''
+                c1.subheader('Parcela')
+                for field in displaying_df['PARCELA']:
+                    c1.write('·'*25)
+                    c1.write(field)
+            
+            c2.subheader('Hc')
+            for surface in displaying_df['SUPERFICIE']:
+                c2.write('·'*25)
+                c2.write(str(surface))
+            
+            
+            if len(columns_to_take) >= 3:
+                c5.subheader(season-1)
+                for crop in displaying_df[str(season-1)]:
+                    c5.write('·'*25)
+                    c5.write(crop) 
+
+                if len(columns_to_take) >= 4:
+                    c4.subheader(season-2)
+                    for crop in displaying_df[str(season-2)]:
+                        c4.write('·'*25)
+                        c4.write(crop) 
+                    
+
+                    if len(columns_to_take) >= 5:
+                        c3.subheader(season-3)
+                        for crop in displaying_df[str(season-3)]:
+                            c3.write('·'*25)
+                            c3.write(crop) 
+            
+            with c6:
+                st.subheader('Cultivo') 
+            #crops = [set_crop_for_field(field , last_crop) for field , last_crop in zip(exploitation_df['PARCELA'],last_crops)]
+
+
+-----------------------------------------------------------------------------------------------------
+
+
+'''
+        ###################################################################################################
+        
+                # Build ag-Grid options
+        gb = GridOptionsBuilder.from_dataframe(displaying_df)
+        
+        [gb.configure_column(column , editable=False) for column in displaying_df.columns[:-1]]
+
+        gb.configure_column('Cultivos' , cellEditor="agSelectCellEditor", cellEditorParams={"values": crop_list }, editable=True)
+        
+        gb.configure_default_column(editable=True)
+        grid_options = gb.build()
+
+
+
+        # Render the table with ag-Grid
+        grid_response = AgGrid(
+            displaying_df,
+            grid_options=grid_options,
+            update_mode=GridUpdateMode.VALUE_CHANGED,
+            on_grid_data_change=on_grid_data_change(displaying_df),
+            return_mode=DataReturnMode.AS_INPUT,
+            allow_unsafe_jscode=True  # We need to set this to True to avoid a warning message
+        )
+        if 'Cultivos' in grid_response and grid_response['Cultivos']:
+            on_grid_data_change(grid_response['Cultivos'])
+        # Display the updated DataFrame
+        ''
+        if grid_response['Cultivo']:
+            on_grid_data_change(grid_response['Cultivo'])''
+            
+        '''
+
+--------------------------------------------------------------------------------------
+# Update the data with the selected values
+def on_grid_data_change(df):
+    new_col_values = []
+    for i in range(len(df)):
+        new_col_values.append(df.loc[i, 'Cultivos'])
+    df['Cultivos'] = new_col_values
+    st.write(df)
+    
+def new_row(parcela: str, superficie: float, cultivo: str = ""):
+    row = pd.DataFrame({
+        'Parcela': [parcela],
+        'Superficie': [superficie],
+        'Cultivo': [cultivo],
+    })
+    return row
+
+# Define a function to render the ag-Grid table
+def render_table(df):
+    # Build ag-Grid options
+    gb = GridOptionsBuilder.from_dataframe(df)
+    
+    # Disable editing for all columns except 'Cultivo'
+    [gb.configure_column(column, editable=False) for column in df.columns[:-1]]
+    
+    # Enable editing for the 'Cultivo' column and set the select box options
+    gb.configure_column('Cultivo', cellEditor="agSelectCellEditor", cellEditorParams={"values": crop_list}, editable=True)
+    
+    # Set default options for all columns
+    gb.configure_default_column(editable=True)
+    
+    # Build the grid options
+    grid_options = gb.build()
+    
+    # Render the table with ag-Grid
+    grid_response = AgGrid(
+        df,
+        grid_options=grid_options,
+        update_mode=GridUpdateMode.VALUE_CHANGED,
+        return_mode=DataReturnMode.AS_INPUT,
+        allow_unsafe_jscode=True  # We need to set this to True to avoid a warning message
+    )
+    
+    # Process the updated DataFrame and row_cultivo_dict
+    if 'data' in grid_response and grid_response['data']:
+        for data in grid_response['data']:
+            # Get the row index and the new value of the 'Cultivo' column
+            row_index = data['index']
+            new_cultivo_value = data['Cultivo']
+            
+            # Update the 'Cultivo' column in the DataFrame with the new value
+            df.at[row_index, 'Cultivo'] = new_cultivo_value
